@@ -1,0 +1,28 @@
+@import "./base.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card {
+    background-color: theme('colors.white');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.6');
+    box-shadow: theme('boxShadow.xl');
+  }
+
+  .form-control {
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    border: 1px solid #E5E6E6;
+    height: 51px;
+    width: 100%;
+    border-radius: 2px;
+    padding: 5px;
+    margin-top: 5px;
+  }
+  .form-control:hover, .form-control:focus {
+    border: 1px solid rgba(0, 0, 0, 1);
+    outline: transparent;
+  }
+}

@@ -8,7 +8,7 @@
           class="h-[41px] bg-kfLightGray rounded-[4px] pl-16 p-4"
         />
         <img
-          src="src/assets/icons/search.svg"
+          src="/src/assets/icons/search.svg"
           class="absolute top-3 left-8"
           alt="search icon"
         />
@@ -18,12 +18,12 @@
       <div
         class="flex justify-center items-center rounded-full bg-kfLightGray w-[41px] h-[41px] mr-6 cursor-pointer"
       >
-        <img src="src/assets/icons/notification.svg" alt="" />
+        <img src="/src/assets/icons/notification.svg" alt="" />
       </div>
       <div
         class="flex justify-center items-center rounded-full bg-kfLightGray w-[41px] h-[41px] mr-5 cursor-pointer"
       >
-        <img src="src/assets/icons/user.svg" alt="" />
+        <img src="/src/assets/icons/user.svg" alt="" />
       </div>
       <p>{{ user?.first_name }} {{ user?.last_name }}</p>
     </div>

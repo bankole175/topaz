@@ -25,7 +25,7 @@ export default class {
   static http() {
     return Axios.create({
       headers: {
-        Authorization: Auth.authorization(),
+        Authorization: Auth.authorization()!,
         Accept: 'application/json',
       },
     })

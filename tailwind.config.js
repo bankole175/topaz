@@ -5,12 +5,14 @@ module.exports = {
   theme: {
     colors: {
       kfGray: '#828282',
+      kfLightGray: '#F4F5F5',
       transparent: 'transparent',
       current: 'currentColor',
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
       danger: colors.red,
+      red: colors.red,
     },
     fontFamily: {
       rubik: ['Rubik', 'sans-serif'],

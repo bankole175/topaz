@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <RouterView />
+  <div id="wrapper">
+    <RouterView name="sidebar" />
+    <div class="ml-[276px] px-8">
+      <RouterView name="top" />
+      <RouterView />
+    </div>
+  </div>
 </template>
 
 <style scoped>
+#wrapper {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

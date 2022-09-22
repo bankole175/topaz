@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <label for="email" class="font-rubik text-kfGray mb-5 text-[0.875rem]">{{
+    <label for="email" class="text-kfGray mb-5 text-[0.875rem]">{{
       label
     }}</label>
     <input
@@ -10,7 +10,7 @@
       @input="handleChange"
     />
 
-    <p v-if="input.error[$attrs.name]" class="font-rubik text-danger-500 mt-1">
+    <p v-if="input.error[$attrs.name]" class="text-danger-500 mt-1">
       {{ input.error[$attrs.name] }}
     </p>
   </div>
@@ -39,7 +39,7 @@ export default defineComponent({
     // note: this validation can be extended to support maxlength, minlength e.t.c but because this task did not need it that is why it was nt implemented
     const handleChange = (event: Event) => {
       const value = (event.target as HTMLInputElement).value
-      context.emit('input', value)
+      context.emit(`update:${attrs.name}`, value)
 
       if (
         !new RegExp(

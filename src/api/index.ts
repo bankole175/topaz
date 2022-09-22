@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { Auth } from '@/api/Auth'
 
 export default class {
   static post(uri: string, data: any) {
@@ -24,7 +25,7 @@ export default class {
   static http() {
     return Axios.create({
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_APP_BEARER_TOKEN}`,
+        Authorization: Auth.authorization(),
         Accept: 'application/json',
       },
     })

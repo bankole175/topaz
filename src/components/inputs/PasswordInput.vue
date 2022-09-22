@@ -1,14 +1,12 @@
 <template>
   <div class="mb-5">
-    <label for="email" class="font-rubik text-kfGray text-[0.875rem]">{{
-      label
-    }}</label>
+    <label for="email" class="text-kfGray text-[0.875rem]">{{ label }}</label>
     <div class="relative">
       <input
         :type="input.type"
         class="form-control"
         v-bind="$attrs"
-        @input="$emit('input', $event.target.value)"
+        @input="$emit(`update:${$attrs.name}`, $event.target.value)"
       />
       <div class="absolute right-4 top-3" @click="updateInputType">
         <img

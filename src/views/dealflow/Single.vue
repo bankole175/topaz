@@ -87,7 +87,23 @@
                 <td
                   class="py-5 px-3 font-medium uppercase underline text-[12px]"
                 >
-                  {{ data.label }}
+                  <div class="flex items-center">
+                    {{ data.label }}
+                    <span
+                      v-if="!categoryVisibility[index]"
+                      @click="clearRiskScoreToHide(index)"
+                      class="ml-3 cursor-pointer"
+                    >
+                      <img src="/src/assets/icons/arrow-up.svg" alt="" />
+                    </span>
+                    <span
+                      v-if="categoryVisibility[index]"
+                      class="ml-3 cursor-pointer"
+                      @click="setRiskScoreToHide(index)"
+                    >
+                      <img src="/src/assets/icons/arrow-down.svg" alt="" />
+                    </span>
+                  </div>
                 </td>
                 <td
                   class="border-x-[1px] border-[#E5E6E6]"
@@ -95,22 +111,42 @@
                   :key="item"
                 ></td>
               </tr>
-              <template v-if="index !== 10">
-                <tr
-                  v-for="(risk, index) in data.riskScore"
-                  :key="index"
-                  class="py-4"
-                >
-                  <td class="px-3 text-[14px] text-kfGray">{{ risk.type }}</td>
+              <template v-if="riskScoreToHide[index]">
+                <tr v-for="(risk, index) in data.riskScore" :key="index">
+                  <td class="risk-score-cell text-left px-3 text-kfGray">
+                    {{ risk.type }}
+                  </td>
                   <td
                     v-for="(label, index) in tableHeader"
                     :key="index"
-                    class="text-end text-[14px] text-kfGray border-x-[1px] border-[#E5E6E6] pr-3"
+                    class="risk-score-cell text-kfGray"
                   >
                     {{ risk[label] }}
                   </td>
+                  <td class="risk-score-cell text-kfGray">
+                    {{ getUserData(risk) }}
+                  </td>
                 </tr>
               </template>
+            </tbody>
+            <tbody class="border-b-[1px] border-[#E5E6E6] bg-[#F4F5F5]">
+              <tr>
+                <td
+                  class="font-medium risk-score-cell opacity-[0.6] text-center"
+                >
+                  Total Perceived Risk Score
+                </td>
+                <td
+                  v-for="(label, index) in tableHeader"
+                  :key="index"
+                  class="risk-score-cell text-kfGray"
+                >
+                  {{ totalPerceivedRiskScore[label] }}
+                </td>
+                <td class="risk-score-cell opacity-[0.6]">
+                  {{ totalPerceivedRiskAverage }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -133,6 +169,10 @@ const id = route.params.id
 const company = ref<CompanyT>()
 const companyRiskScoreCard = ref()
 const tableHeader = ref()
+const riskScoreToHide = ref()
+const categoryVisibility = ref()
+const totalPerceivedRiskAverage = ref()
+const totalPerceivedRiskScore = ref<any>({})
 const riskScoreCardCategory = [
   'Product & Tech Risks',
   'Market Risks',
@@ -157,9 +197,63 @@ const getHeaderName = (label: string) => {
   return label.slice(0, -6)
 }
 
+const setRiskScoreToHide = (selectedIndex: number) => {
+  riskScoreToHide.value[selectedIndex] = false
+  categoryVisibility.value[selectedIndex] = false
+}
+
+const clearRiskScoreToHide = (selectedIndex: number) => {
+  riskScoreToHide.value[selectedIndex] = true
+  categoryVisibility.value[selectedIndex] = true
+}
+
+const getUserData = (risk: any) => {
+  const scores: number[] = []
+  tableHeader.value.forEach((label: string) => {
+    scores.push(risk[label])
+  })
+  const total = scores.reduce((a, b) => a + b, 0)
+  return Number((total / tableHeader.value.length).toFixed(0))
+}
+
+const prepareTotalPerceivedRiskScore = (data: { [x: string]: number }[]) => {
+  const totalScoreArray: number[] = []
+  tableHeader.value.forEach((label: string) => {
+    const scores: Array<number> = []
+    data.forEach((item: { [x: string]: number }) => {
+      scores.push(item[label])
+    })
+    const userTotal = scores.reduce((a, b) => a + b, 0)
+    totalScoreArray.push(userTotal)
+    totalPerceivedRiskScore.value[label] = userTotal
+  })
+  const total = totalScoreArray.reduce((a, b) => a + b, 0)
+  totalPerceivedRiskAverage.value = Number(
+    (total / tableHeader.value.length).toFixed(0),
+  )
+}
+
+const prepareRiskScoreCardRecord = (data: any[]) => {
+  const riskScoreCardRecord: any[] = []
+
+  let categoryObject: any = {}
+  riskScoreCardCategory.forEach((category, index) => {
+    categoryObject[index] = true
+    const riskScoreCardData = data.filter(
+      (risk: { category: string }) => risk.category === category,
+    )
+    riskScoreCardRecord.push({
+      label: category,
+      riskScore: riskScoreCardData,
+    })
+  })
+  companyRiskScoreCard.value = riskScoreCardRecord
+  categoryVisibility.value = categoryObject
+  riskScoreToHide.value = categoryObject
+}
+
 const getCompanyRiskScoreCard = async () => {
   try {
-    const riskScoreCardRecord: any[] = []
     const { data, errors } = await Company.getCompanyRiskScoreCard(id)
     if (errors) {
       if (errors.status === 401) await router.push('/login')
@@ -167,20 +261,8 @@ const getCompanyRiskScoreCard = async () => {
     }
     const label = Object.keys(data[0])
     tableHeader.value = label.filter((lab) => lab.includes('score'))
-    // const jane = tableHeader[0].slice(0, -6)
-    // console.log(jane, 'police')
-    riskScoreCardCategory.forEach((category) => {
-      const riskScoreCardData = data.filter(
-        (risk: { category: string }) => risk.category === category,
-      )
-      riskScoreCardRecord.push({
-        label: category,
-        riskScore: riskScoreCardData,
-      })
-    })
-    companyRiskScoreCard.value = riskScoreCardRecord
-    console.log(companyRiskScoreCard.value, 'poppo')
-    // company.value = data
+    prepareTotalPerceivedRiskScore(data)
+    prepareRiskScoreCardRecord(data)
   } catch (e) {
     console.log(e)
   }

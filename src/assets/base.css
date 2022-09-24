@@ -75,3 +75,10 @@ body {
 input {
   outline: transparent;
 }
+
+.risk-score-cell {
+  padding-right: 0.75rem;
+  text-align: end;
+  font-size: 14px;
+  border-right: 1px solid rgb(229 230 230);;
+}

@@ -70,7 +70,6 @@ const submit = async () => {
   try {
     const { errors } = await User.login(form)
     if (errors) {
-      console.log(errors, 'errors')
       errorMessage.value = errors.data.message
       isLoading.value = false
       return

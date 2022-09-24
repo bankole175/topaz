@@ -4,7 +4,6 @@ import { computed } from 'vue'
 const route = useRoute()
 
 const path = computed(() => route.path)
-console.log(path, 'router')
 </script>
 
 <template>

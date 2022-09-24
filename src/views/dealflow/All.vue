@@ -59,7 +59,6 @@ const getCompanies = async () => {
   try {
     const { data, errors } = await Company.getCompanies()
     if (errors) {
-      console.log(errors, 'errors')
       if (errors.status === 401) await router.push('/login')
       return
     }

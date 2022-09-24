@@ -38,7 +38,6 @@ import Company from '@/api/Company'
 import { defineComponent, onMounted, ref } from 'vue'
 import type { CompanyT } from '@/types/type'
 import KanbanComponent from '@/components/Kanban.vue'
-import router from '@/router'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({

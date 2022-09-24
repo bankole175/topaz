@@ -1,5 +1,4 @@
 import Api from '@/api/index'
-import { Auth } from '@/api/Auth'
 
 export default class extends Api {
   static async getCompanies() {

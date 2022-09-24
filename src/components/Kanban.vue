@@ -1,7 +1,7 @@
 <template>
   <div class="bg-kfLightGray w-[250px] kanban-height px-3" v-if="data">
     <p class="uppercase text-[0.9375rem] pt-3">{{ data.label }}</p>
-    <div class="my-[12px]" v-for="company in data.companies">
+    <div class="my-[12px]" v-for="company in data.companies" :key="company.id">
       <div class="bg-white w-[226px] h-[104px] rounded-[2px]">
         <div
           class="float-right text-white text-[10px] p-1 pl-5 kanban-status"
@@ -69,6 +69,6 @@ export default defineComponent({
   height: calc(100vh - 330px);
 }
 .kanban-status {
-  border-radius: 0px 2px 0px 24px;
+  border-radius: 0 2px 0 24px;
 }
 </style>

@@ -33,62 +33,55 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Company from '@/api/Company'
-import { defineComponent, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { CompanyT } from '@/types/type'
 import KanbanComponent from '@/components/Kanban.vue'
 import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  components: { KanbanComponent },
-  setup() {
-    const router = useRouter()
-    const stages = [
-      'onboarding',
-      'stage 1',
-      'stage 2',
-      'stage 3',
-      'stage 4',
-      'stage 5',
-      'stage 6',
-      'stage 7',
-      'stage 8',
-      'stage 9',
-    ]
-    let kananRecords = ref<{ label: string; companies: CompanyT[] }[]>([])
+const router = useRouter()
+const stages = [
+  'onboarding',
+  'stage 1',
+  'stage 2',
+  'stage 3',
+  'stage 4',
+  'stage 5',
+  'stage 6',
+  'stage 7',
+  'stage 8',
+  'stage 9',
+]
+let kananRecords = ref<{ label: string; companies: CompanyT[] }[]>([])
 
-    const getCompanies = async () => {
-      try {
-        const { data, errors } = await Company.getCompanies()
-        if (errors) {
-          console.log(errors, 'errors')
-          if (errors.status === 401) await router.push('/login')
-          return
-        }
-        prepareKanbanBoard(data)
-      } catch (e) {
-        console.log(e)
-      }
+const getCompanies = async () => {
+  try {
+    const { data, errors } = await Company.getCompanies()
+    if (errors) {
+      console.log(errors, 'errors')
+      if (errors.status === 401) await router.push('/login')
+      return
     }
+    prepareKanbanBoard(data)
+  } catch (e) {
+    console.log(e)
+  }
+}
 
-    const prepareKanbanBoard = (companyData: CompanyT[]) => {
-      stages.forEach((stage) => {
-        const selectedStageCompanies = companyData.filter(
-          (company) => company.current_stage.toLowerCase() === stage,
-        )
-        kananRecords.value.push({
-          label: stage,
-          companies: selectedStageCompanies,
-        })
-      })
-    }
-
-    onMounted(() => {
-      getCompanies()
+const prepareKanbanBoard = (companyData: CompanyT[]) => {
+  stages.forEach((stage) => {
+    const selectedStageCompanies = companyData.filter(
+      (company) => company.current_stage.toLowerCase() === stage,
+    )
+    kananRecords.value.push({
+      label: stage,
+      companies: selectedStageCompanies,
     })
+  })
+}
 
-    return { kananRecords }
-  },
+onMounted(() => {
+  getCompanies()
 })
 </script>

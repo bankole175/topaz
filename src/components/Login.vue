@@ -4,7 +4,7 @@
     <p class="text-kfGray text-center pb-11 mt-3 text-[0.9375rem]">
       Welcome to Kinfolk Venture Capital
     </p>
-    <AlertComponent />
+    <AlertComponent v-if="errorMessage" :message="errorMessage" />
     <form @submit.prevent="submit">
       <TextInput
         label="Email"
@@ -21,8 +21,16 @@
       <p class="float-right mt-[-9px] text-[0.875rem]">Forgot Password?</p>
 
       <button
-        class="w-full bg-black text-white p-[1rem] border-r-2 font-medium my-10 leading-[1.185rem]"
+        disable
+        class="w-full bg-black text-white p-[1rem] border-r-2 font-medium my-10 leading-[1.185rem] disabled:opacity-50"
       >
+        <span
+          v-if="isLoading"
+          class="spinner-border animate-spin inline-block w-5 h-5 border-4 mr-2 rounded-full"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </span>
         Sign In
       </button>
 
@@ -34,8 +42,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue'
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import TextInput from '@/components/inputs/TextInput.vue'
 import PasswordInput from '@/components/inputs/PasswordInput.vue'
 import User from '@/api/User'
@@ -43,37 +51,31 @@ import type { LoginT } from '@/types/type'
 import AlertComponent from '@/components/Alert.vue'
 import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  name: 'LoginComponent',
-  components: { AlertComponent, PasswordInput, TextInput },
-
-  setup() {
-    const router = useRouter()
-    const form = reactive<LoginT>({
-      email: '',
-      password: '',
-    })
-
-    let isLoading: boolean = false
-
-    const submit = async () => {
-      isLoading = true
-      try {
-        const { errors } = await User.login(form)
-        if (errors) {
-          console.log(errors, 'errors')
-          isLoading = false
-          return
-        }
-        isLoading = false
-        router.push({ name: 'allDealflow' })
-      } catch (e) {
-        console.log(e)
-        isLoading = false
-      }
-    }
-
-    return { form, submit, isLoading }
-  },
+const router = useRouter()
+const form = reactive<LoginT>({
+  email: '',
+  password: '',
 })
+
+let isLoading = ref<boolean>(false)
+let errorMessage = ref<string>()
+
+const submit = async () => {
+  isLoading.value = true
+  try {
+    const { errors } = await User.login(form)
+    if (errors) {
+      console.log(errors, 'errors')
+      errorMessage.value = errors.data.message
+      isLoading.value = false
+      return
+    }
+    isLoading.value = false
+    errorMessage.value = undefined
+    await router.push({ name: 'allDealflow' })
+  } catch (e) {
+    console.log(e)
+    isLoading.value = false
+  }
+}
 </script>

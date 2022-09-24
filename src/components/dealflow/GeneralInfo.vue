@@ -1,12 +1,12 @@
 <template>
-  <div v-if="company" class="flex justify-between mt-10">
-    <div class="lg:basis-1/5">
+  <div v-if="company" class="flex justify-between mt-10 overflow-x-auto">
+    <div class="lg:basis-1/5 mr-4">
       <img
         :src="getFile(props.company.logo)"
         :alt="`${props.company.company_name} logo`"
-        class="w-[157.5x] h-[157.5px] rounded-full mb-3"
+        class="md:w-[157.5x] md:h-[157.5px] rounded-full mb-3"
       />
-      <p class="text-cente pl-9 text-[22px]">
+      <p class="text-center md:text-left md:pl-5 text-[15] md:text-[22px]">
         {{ props.company.company_name }}
       </p>
     </div>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="flex gap-11">
+      <div class="lg:flex gap-11">
         <div class="lg:basis-1/2">
           <TextInput
             label="Business Model"
@@ -56,13 +56,12 @@
           <TextInput
             label="Funding Round'"
             disabled
-            class="w-[420px]"
             :value="formData.fundingRound"
           />
         </div>
       </div>
 
-      <div class="flex gap-11">
+      <div class="lg:flex gap-11">
         <div class="lg:basis-1/2">
           <TextInput
             :label="'Funding Amount'"
@@ -79,13 +78,13 @@
         </div>
       </div>
 
-      <div class="flex gap-11">
+      <div class="lg:flex gap-11">
         <div class="lg:basis-1/2">
           <TextInput label="Location" disabled :value="formData.location" />
         </div>
         <div class="lg:basis-1/2"></div>
       </div>
-      <div class="flex gap-11">
+      <div class="lg:flex gap-11">
         <div class="lg:basis-1/2">
           <TextInput label="Website" disabled :value="formData.website" />
         </div>

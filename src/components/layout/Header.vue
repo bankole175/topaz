@@ -1,11 +1,11 @@
 <template>
-  <div class="flex justify-between py-14">
+  <div class="sm:flex justify-between py-8 sm:py-14">
     <div>
       <div class="relative">
         <input
           type="text"
           placeholder="Search"
-          class="h-[41px] bg-kfLightGray rounded-[4px] pl-16 p-4"
+          class="h-[41px] bg-kfLightGray rounded-[4px] pl-16 p-4 mb-5"
         />
         <img
           src="/src/assets/icons/search.svg"
@@ -30,27 +30,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import type { LoginResponseT, UserT } from '@/types/type'
 
-export default defineComponent({
-  name: 'HeaderComponent',
-  setup() {
-    let user = ref<UserT>()
+let user = ref<UserT>()
 
-    const getUserData = () => {
-      const loginResponse: LoginResponseT = JSON.parse(
-        localStorage.getItem('oauth')!,
-      )
-      user.value = loginResponse.data
-    }
+const getUserData = () => {
+  const loginResponse: LoginResponseT = JSON.parse(
+    localStorage.getItem('oauth')!,
+  )
+  user.value = loginResponse.data
+}
 
-    onMounted(() => {
-      getUserData()
-    })
-
-    return { user }
-  },
+onMounted(() => {
+  getUserData()
 })
 </script>

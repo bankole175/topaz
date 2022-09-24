@@ -1,7 +1,16 @@
 <template>
-  <div class="bg-kfLightGray w-[250px] kanban-height px-3" v-if="data">
-    <p class="uppercase text-[0.9375rem] pt-3">{{ data.label }}</p>
-    <div class="my-[12px]" v-for="company in data.companies" :key="company.id">
+  <div
+    class="bg-kfLightGray w-[250px] kanban-height px-3"
+    v-if="props.kanbanRecord"
+  >
+    <p class="uppercase text-[0.9375rem] pt-3">
+      {{ props.kanbanRecord.label }}
+    </p>
+    <div
+      class="my-[12px]"
+      v-for="company in props.kanbanRecord.companies"
+      :key="company.id"
+    >
       <div class="bg-white w-[226px] h-[104px] rounded-[2px]">
         <div
           class="float-right text-white text-[10px] p-1 pl-5 kanban-status"
@@ -47,27 +56,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 import { getFile, formattedDate } from '@/utils/utils'
-export default defineComponent({
-  name: 'KanbanComponent',
-  props: {
-    data: {
-      required: true,
-      type: Object,
-    },
-  },
-  setup() {
-    return { formattedDate, getFile }
-  },
-})
+import type { KanbanRecordT } from '@/types/type'
+
+interface IProps {
+  kanbanRecord: KanbanRecordT
+}
+const props = defineProps<IProps>()
 </script>
 
 <style scoped>
-.kanban-height {
-  height: calc(100vh - 330px);
+@media screen and (min-width: 1000px) {
+  .kanban-height {
+    height: calc(100vh - 355px);
+  }
 }
+
+@media screen and (max-width: 1000px) {
+  .kanban-height {
+    height: 100vh;
+  }
+}
+
 .kanban-status {
   border-radius: 0 2px 0 24px;
 }

@@ -11,7 +11,7 @@
         Filter
       </button>
     </div>
-    <div class="flex mb-8">
+    <div class="flex mb-8 whitespace-nowrap overflow-x-auto overflow-y-hidden">
       <p class="text-[#40B540]">
         Approved Deals
         <span class="rounded bg-[#F1F9F1] text-[13px] ml-3 p-2 mb-3">40</span>
@@ -27,7 +27,7 @@
     </div>
     <div class="flex gap-4 overflow-x-auto">
       <div v-for="(data, index) in kananRecords" :key="index">
-        <KanbanComponent :data="data" />
+        <KanbanComponent :kanbanRecord="data" />
       </div>
     </div>
   </div>
@@ -36,8 +36,8 @@
 <script setup lang="ts">
 import Company from '@/api/Company'
 import { onMounted, ref } from 'vue'
-import type { CompanyT } from '@/types/type'
-import KanbanComponent from '@/components/Kanban.vue'
+import type { CompanyT, KanbanRecordT } from '@/types/type'
+import KanbanComponent from '@/components/dealflow/Kanban.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -53,7 +53,7 @@ const stages = [
   'stage 8',
   'stage 9',
 ]
-let kananRecords = ref<{ label: string; companies: CompanyT[] }[]>([])
+let kananRecords = ref<KanbanRecordT[]>([])
 
 const getCompanies = async () => {
   try {

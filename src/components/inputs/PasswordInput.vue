@@ -1,6 +1,8 @@
 <template>
   <div class="mb-5">
-    <label for="email" class="text-kfGray text-[0.875rem]">{{ label }}</label>
+    <label for="email" class="text-kfGray text-[0.875rem]">{{
+      props.label
+    }}</label>
     <div class="relative">
       <input
         :type="input.type"
@@ -26,28 +28,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue'
+<script setup lang="ts">
+import { defineProps, reactive } from 'vue'
 
-export default defineComponent({
-  name: 'PasswordInput',
-  props: {
-    label: {
-      required: true,
-      type: String,
-    },
-  },
+interface IProps {
+  label: string
+}
 
-  setup() {
-    const input = reactive({
-      type: 'password',
-    })
+const props = defineProps<IProps>()
 
-    const updateInputType = () => {
-      input.type = input.type === 'password' ? 'text' : 'password'
-    }
-
-    return { input, updateInputType }
-  },
+const input = reactive({
+  type: 'password',
 })
+
+const updateInputType = () => {
+  input.type = input.type === 'password' ? 'text' : 'password'
+}
 </script>

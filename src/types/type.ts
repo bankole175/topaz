@@ -79,3 +79,8 @@ export interface CompanyT {
   deal_lead: DealLead
   collections: any[]
 }
+
+export interface KanbanRecordT {
+  label: string
+  companies: CompanyT[]
+}

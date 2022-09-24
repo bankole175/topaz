@@ -48,8 +48,10 @@ export default defineComponent({
       ) {
         input.error[attrs.name as keyof typeof input.error] =
           'Enter a valid email address'
+        context.emit('error', true)
       } else {
         input.error[attrs.name as keyof typeof input.error] = null
+        context.emit('error', false)
       }
     }
 

@@ -11,6 +11,7 @@
         name="email"
         type="email"
         v-model:email="form.email"
+        @error="getError($event)"
       />
       <PasswordInput
         label="Password"
@@ -21,7 +22,7 @@
       <p class="float-right mt-[-9px] text-[0.875rem]">Forgot Password?</p>
 
       <button
-        disable
+        :disabled="error"
         class="w-full bg-black text-white p-[1rem] border-r-2 font-medium my-10 leading-[1.185rem] disabled:opacity-50"
       >
         <span
@@ -52,6 +53,7 @@ import AlertComponent from '@/components/Alert.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const error = ref<boolean>(true)
 const form = reactive<LoginT>({
   email: '',
   password: '',
@@ -60,6 +62,9 @@ const form = reactive<LoginT>({
 let isLoading = ref<boolean>(false)
 let errorMessage = ref<string>()
 
+const getError = (errorStatus: boolean) => {
+  error.value = errorStatus
+}
 const submit = async () => {
   isLoading.value = true
   try {
@@ -70,9 +75,9 @@ const submit = async () => {
       isLoading.value = false
       return
     }
+    await router.push({ name: 'allDealflow' })
     isLoading.value = false
     errorMessage.value = undefined
-    await router.push({ name: 'allDealflow' })
   } catch (e) {
     console.log(e)
     isLoading.value = false

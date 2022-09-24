@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+import { computed } from 'vue'
+const route = useRoute()
+
+const path = computed(() => route.path)
+console.log(path, 'router')
 </script>
 
 <template>
   <div id="wrapper">
-    <RouterView name="sidebar" />
-    <div class="ml-[276px] px-8">
+    <div class="hidden md:block">
+      <RouterView name="sidebar" />
+    </div>
+    <div :class="{ 'md:ml-[276px] px-8': path !== '/login' }">
       <RouterView name="top" />
       <RouterView />
     </div>

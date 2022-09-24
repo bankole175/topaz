@@ -22,7 +22,6 @@ import { defineComponent, reactive, useAttrs } from 'vue'
 export default defineComponent({
   name: 'TextInput',
   props: {
-    error: Object,
     label: {
       required: true,
       type: String,

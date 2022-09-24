@@ -25,6 +25,13 @@
     outline: transparent;
   }
 
+  .form-control:disabled {
+    border: 1px solid theme('colors.kfLightGray');
+    outline: transparent;
+    font-size: 15px;
+    padding: 1rem;
+  }
+
   .btn-outline-dark {
     background: theme('colors.white');
     display: flex;

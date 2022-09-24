@@ -53,7 +53,10 @@ import { getFile, formattedDate } from '@/utils/utils'
 export default defineComponent({
   name: 'KanbanComponent',
   props: {
-    data: Object,
+    data: {
+      required: true,
+      type: Object,
+    },
   },
   setup() {
     return { formattedDate, getFile }

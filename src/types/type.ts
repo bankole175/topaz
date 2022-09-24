@@ -45,8 +45,8 @@ export interface DealLead {
   password: string
   profile_image: string
   nickname: string
-  created_at: Date
-  updated_at: Date
+  created_at: string
+  updated_at: string
 }
 
 export interface CompanyT {
@@ -70,12 +70,12 @@ export interface CompanyT {
   current_stage: string
   can_proceed: boolean
   next_stage: string
-  last_interaction_at: Date
+  last_interaction_at: string
   stage_status: string
   company_summary: string
   rejection_reason?: any
-  created_at: Date
-  updated_at: Date
+  created_at: string
+  updated_at: string
   deal_lead: DealLead
   collections: any[]
 }

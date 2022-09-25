@@ -13,13 +13,13 @@
       <div class="absolute right-4 top-3" @click="updateInputType">
         <img
           v-if="input.type === 'password'"
-          src="src/assets/icons/eye.svg"
+          src="/src/assets/icons/eye.svg"
           class="w-6 cursor-pointer"
           alt=""
         />
         <img
           v-if="input.type === 'text'"
-          src="src/assets/icons/eye-slash.svg"
+          src="/src/assets/icons/eye-slash.svg"
           class="w-6 cursor-pointer"
           alt=""
         />

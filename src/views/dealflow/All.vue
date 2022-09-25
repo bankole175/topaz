@@ -4,7 +4,7 @@
       <p class="font-playfair text-[2rem]">Dealflow</p>
       <button class="btn-outline-dark">
         <img
-          src="../../assets/icons/filter.svg"
+          src="/src/assets/icons/filter.svg"
           alt="filter icon"
           class="mr-3"
         />

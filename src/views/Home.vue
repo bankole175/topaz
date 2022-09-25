@@ -18,7 +18,7 @@
           <!--          <div class="w-ful">-->
           <div class="flex justify-center sm:block">
             <img
-              src="src/assets/logo.svg"
+              src="/src/assets/logo.svg"
               alt="kinfolk logo"
               class="mb-5 w-[55px] md:w-[110px]"
             />

@@ -14,15 +14,21 @@
     <div class="flex mb-8 whitespace-nowrap overflow-x-auto overflow-y-hidden">
       <p class="text-[#40B540]">
         Approved Deals
-        <span class="rounded bg-[#F1F9F1] text-[13px] ml-3 p-2 mb-3">40</span>
+        <span class="rounded bg-[#F1F9F1] text-[13px] ml-3 p-2 mb-3">
+          {{ getStatusCount('approved') }}
+        </span>
       </p>
       <p class="text-[#B5B540] mx-10">
         Processed Deals
-        <span class="rounded bg-[#F8F8E8] text-[13px] ml-3 p-2 mb-3">40</span>
+        <span class="rounded bg-[#F8F8E8] text-[13px] ml-3 p-2 mb-3">
+          {{ getStatusCount('processed') }}
+        </span>
       </p>
       <p class="text-[#F45252]">
         Rejected Deals
-        <span class="rounded bg-[#F8ECEC] text-[13px] ml-3 p-2 mb-3">40</span>
+        <span class="rounded bg-[#F8ECEC] text-[13px] ml-3 p-2 mb-3">
+          {{ getStatusCount('rejected') }}
+        </span>
       </p>
     </div>
     <div class="flex gap-4 overflow-x-auto">
@@ -54,17 +60,15 @@ const stages = [
   'stage 9',
 ]
 let kananRecords = ref<KanbanRecordT[]>([])
+let companyData = ref<CompanyT[]>()
 
 const getCompanies = async () => {
   try {
-    const { data, errors } = await Company.getCompanies()
-    if (errors) {
-      if (errors.status === 401) await router.push('/login')
-      return
-    }
+    const { data } = await Company.getCompanies()
+    companyData.value = data
     prepareKanbanBoard(data)
-  } catch (e) {
-    console.log(e)
+  } catch (error: any) {
+    if (error.response.status === 401) await router.push('/login')
   }
 }
 
@@ -78,6 +82,13 @@ const prepareKanbanBoard = (companyData: CompanyT[]) => {
       companies: selectedStageCompanies,
     })
   })
+}
+
+const getStatusCount = (status: string) => {
+  const filteredValue: CompanyT[] | undefined = companyData.value?.filter(
+    (company) => company.stage_status.toLowerCase() === status,
+  )
+  return filteredValue ? filteredValue.length : 0
 }
 
 onMounted(() => {

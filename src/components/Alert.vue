@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 interface IProps {
   message: string
 }

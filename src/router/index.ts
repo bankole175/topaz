@@ -4,8 +4,6 @@ import { Auth } from '@/api/Auth'
 import Header from '@/components/layout/Header.vue'
 import Sidebar from '@/components/layout/Sidebar.vue'
 
-const isUserLoggedIn = Auth.get()
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,14 +40,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.authGuard) {
-    if (isUserLoggedIn) {
-      next()
-    } else {
-      next('/login')
-    }
-  } else {
+  const isUserLoggedIn = Auth.isUserValid()
+  if ((to.meta.authGuard && isUserLoggedIn) || !to.meta.authGuard) {
     next()
+  } else {
+    next('/login')
   }
 })
 export default router

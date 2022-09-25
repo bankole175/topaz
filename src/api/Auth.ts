@@ -13,6 +13,10 @@ export class Auth {
     return data?.data.token
   }
 
+  static isUserValid() {
+    return !!this.get()
+  }
+
   static authorization() {
     const accessToken = this.get()
 

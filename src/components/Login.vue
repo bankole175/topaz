@@ -68,17 +68,12 @@ const getError = (errorStatus: boolean) => {
 const submit = async () => {
   isLoading.value = true
   try {
-    const { errors } = await User.login(form)
-    if (errors) {
-      errorMessage.value = errors.data.message
-      isLoading.value = false
-      return
-    }
-    await router.push({ name: 'allDealflow' })
+    await User.login(form)
+    router.push({ name: 'allDealflow' })
     isLoading.value = false
     errorMessage.value = undefined
-  } catch (e) {
-    console.log(e)
+  } catch (error: any) {
+    errorMessage.value = error.response.data.message
     isLoading.value = false
   }
 }

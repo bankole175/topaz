@@ -57,7 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { getFile, formattedDate } from '@/utils/utils'
 import type { KanbanRecordT } from '@/types/type'
 

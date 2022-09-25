@@ -87,14 +87,10 @@ const tab = ref<string>('generalInfo')
 
 const getCompanyData = async () => {
   try {
-    const { data, errors } = await Company.getCompany(id)
-    if (errors) {
-      if (errors.status === 401) await router.push('/login')
-      return
-    }
+    const { data } = await Company.getCompany(id)
     company.value = data
-  } catch (e) {
-    console.log(e)
+  } catch (error: any) {
+    if (error.response.status === 401) await router.push('/login')
   }
 }
 
@@ -103,14 +99,10 @@ const setCurrentHeader = (currentTab: string) => {
 }
 const getCompanyRiskScoreCard = async () => {
   try {
-    const { data, errors } = await Company.getCompanyRiskScoreCard(id)
-    if (errors) {
-      if (errors.status === 401) await router.push('/login')
-      return
-    }
+    const { data } = await Company.getCompanyRiskScoreCard(id)
     riskScoreData.value = data
-  } catch (e) {
-    console.log(e)
+  } catch (error: any) {
+    if (error.response.status === 401) await router.push('/login')
   }
 }
 

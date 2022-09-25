@@ -10,7 +10,7 @@ export default class extends Api {
     }
   }
 
-  static async getCompany(id: string) {
+  static async getCompany(id: string | string[]) {
     try {
       const { data } = await this.get(`company/fetch/${id}`)
       return data
@@ -19,7 +19,7 @@ export default class extends Api {
     }
   }
 
-  static async getCompanyRiskScoreCard(id: string) {
+  static async getCompanyRiskScoreCard(id: string | string[]) {
     try {
       const { data } = await this.get(`risk-scorecard/${id}`)
       return data

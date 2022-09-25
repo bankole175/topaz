@@ -1,14 +1,12 @@
 <template>
   <div class="mb-5">
-    <label for="email" class="text-kfGray text-[0.875rem]">{{
-      props.label
-    }}</label>
+    <label for="email" class="text-kfGray text-[0.875rem]">{{ label }}</label>
     <div class="relative">
       <input
         :type="input.type"
         class="form-control"
         v-bind="$attrs"
-        @input="$emit(`update:${$attrs.name}`, $event.target.value)"
+        @input="handleChange"
       />
       <div class="absolute right-4 top-3" @click="updateInputType">
         <img
@@ -28,20 +26,33 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, reactive } from 'vue'
+<script lang="ts">
+import { defineComponent, reactive, useAttrs } from 'vue'
 
-interface IProps {
-  label: string
-}
+export default defineComponent({
+  name: 'PasswordInput',
+  props: {
+    label: {
+      required: true,
+      type: String,
+    },
+  },
+  setup(props, context) {
+    const attrs = useAttrs()
 
-const props = defineProps<IProps>()
+    const input = reactive({
+      type: 'password',
+    })
 
-const input = reactive({
-  type: 'password',
+    const updateInputType = () => {
+      input.type = input.type === 'password' ? 'text' : 'password'
+    }
+
+    const handleChange = (event: Event) => {
+      const value = (event.target as HTMLInputElement).value
+      context.emit(`update:${attrs.name}`, value)
+    }
+    return { updateInputType, handleChange, input }
+  },
 })
-
-const updateInputType = () => {
-  input.type = input.type === 'password' ? 'text' : 'password'
-}
 </script>

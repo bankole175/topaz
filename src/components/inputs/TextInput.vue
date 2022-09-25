@@ -10,8 +10,8 @@
       @input="handleChange"
     />
 
-    <p v-if="input.error[$attrs.name]" class="text-danger-500 mt-1">
-      {{ input.error[$attrs.name] }}
+    <p v-if="input.error[inputAttrs]" class="text-danger-500 mt-1">
+      {{ input.error[inputAttrs] }}
     </p>
   </div>
 </template>
@@ -35,6 +35,8 @@ export default defineComponent({
       error: {},
     })
 
+    const inputAttrs: string = attrs.name as string
+
     // note: this validation can be extended to support maxlength, minlength e.t.c but because this task did not need it that is why it was nt implemented
     const handleChange = (event: Event) => {
       const value = (event.target as HTMLInputElement).value
@@ -55,7 +57,7 @@ export default defineComponent({
       }
     }
 
-    return { handleChange, input }
+    return { handleChange, input, inputAttrs }
   },
 })
 </script>
